@@ -5,6 +5,9 @@ import sys
 # Get the default printer name
 # printer_name = win32print.GetDefaultPrinter()
 
+brotherPrinter = "Brother MFC-J6555DW"
+hpPrinter = "HP LaserJet M15w (C0D8CE)"
+
 #using a text file to test with print api
 file_path = 'texttest.txt'
 
@@ -22,12 +25,19 @@ else:
      
 
 # Open the printer
-printer_name = win32print.GetDefaultPrinter()
-p = win32print.OpenPrinter(printer_name)
+printer_name = win32print.GetDefaultPrinterW()
+try:
+    p = win32print.OpenPrinter(hpPrinter)
+except:
+    p = win32print.OpenPrinter(printer_name)
+
+# p = win32print.OpenPrinter(printer_name)
 
 # Start a print job
-job = win32print.StartDocPrinter(p, 1, ("Test document", None, "RAW"))
+job = win32print.StartDocPrinter(p, 1, ("Test document", None, "raw"))
 win32print.StartPagePrinter(p)
+
+
 
 # Write data to the printer
 # Replace "data to print" with the actual data you want to print
