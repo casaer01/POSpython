@@ -21,51 +21,50 @@ if sys.version_info >= (3,):
 else:
     raw_data = content
 
-# Method number 3
+# Method number 3 -- page is sent but is stuck with "sent to printer" status
      
 
 # Open the printer
-printer_name = win32print.GetDefaultPrinterW()
-try:
-    p = win32print.OpenPrinter(hpPrinter)
-except:
-    p = win32print.OpenPrinter(printer_name)
+# printer_name = win32print.GetDefaultPrinterW()
+# try:
+#     p = win32print.OpenPrinter(hpPrinter)
+# except:
+#     p = win32print.OpenPrinter(printer_name)
 
-# p = win32print.OpenPrinter(printer_name)
+# # p = win32print.OpenPrinter(printer_name)
 
-# Start a print job
-job = win32print.StartDocPrinter(p, 1, ("Test document", None, "raw"))
-win32print.StartPagePrinter(p)
-
-
-# Write data to the printer
-# Replace "data to print" with the actual data you want to print
-
-win32print.WritePrinter(p, raw_data)
-
-# End the print job
-win32print.EndPagePrinter(p)
-win32print.EndDocPrinter(p)
-
-# Close the printer
-win32print.ClosePrinter(p)
+# # Start a print job
+# job = win32print.StartDocPrinter(p, 1, ("Test document", None, "raw"))
+# win32print.StartPagePrinter(p)
 
 
-# third method
+# # Write data to the printer
+# # Replace "data to print" with the actual data you want to print
 
-printer_name = "Printer Name"
-printer_handle = win32print.OpenPrinter(printer_name)
-# Set the printer properties
-properties = win32print.GetPrinter(printer_handle, 2)
-properties['pDevMode'].Duplex = win32print.DMDUP_SIMPLEX  # Set duplex mode to simplex
-properties['pDevMode'].Copies = 2  # Set number of copies to 2
-win32print.SetPrinter(printer_handle, 2, properties, 0)
-# Print a document
-job_info = ('Test Document', None, {'DesiredAccess': win32print.PRINTER_ALL_ACCESS})
-job_handle = win32print.StartDocPrinter(printer_handle, 1, job_info)
-win32print.StartPagePrinter(printer_handle)
-win32print.WritePrinter(printer_handle, b'This is a test document')
-win32print.EndPagePrinter(printer_handle)
-win32print.EndDocPrinter(printer_handle)
-# Close the printer handle
-win32print.ClosePrinter(printer_handle)
+# win32print.WritePrinter(p, raw_data)
+
+# # End the print job
+# win32print.EndPagePrinter(p)
+# win32print.EndDocPrinter(p)
+
+# # Close the printer
+# win32print.ClosePrinter(p)
+
+
+# Fourth Method
+
+import win32api
+import win32print
+from glob import glob
+
+# A List containing the system printers
+all_printers = [printer[2] for printer in win32print.EnumPrinters(2)]
+# Ask the user to select a printer
+printer_num = int(input("Choose a printer:\n"+"\n".join([f"{n} {p}" for n, p in enumerate(all_printers)])+"\n"))
+# set the default printer
+win32print.SetDefaultPrinter(all_printers[printer_num])
+pdf_dir = "D:/path/to/pdf_dir/**/*"
+for f in glob(pdf_dir, recursive=True):
+    win32api.ShellExecute(0, "print", f, None,  ".",  0)
+
+input("press any key to exit")
