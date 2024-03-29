@@ -1,4 +1,4 @@
-def call_printer(num):
+def call_printer(num: int):
     if num == 1:
         return "Brother MFC-J6555DW"
     else:
@@ -9,7 +9,7 @@ def call_printer(num):
 
 def readText():
 
-    file_path = 'texttest.txt'
+    file_path = "texttest.txt"
 
     with open(file_path, 'r') as file:
         content = file.read()
