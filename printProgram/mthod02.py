@@ -42,9 +42,9 @@ printer_handle = win32print.OpenPrinter(printer_name)
 
 # Set the printer properties (optional)
 properties = win32print.GetPrinter(printer_handle, 2)
-properties['pDevMode'].Duplex = win32print.DMDUP_SIMPLEX # Set duplex mode to simplex
-properties['pDevMode'].Copies = 2 # Set number of copies to 2
-win32print.SetPrinter(printer_handle, 2, properties, 0)
+# properties['pDevMode'].Duplex = win32print.DMDUP_SIMPLEX # Set duplex mode to simplex
+# properties['pDevMode'].Copies = 2 # Set number of copies to 2
+# win32print.SetPrinter(printer_handle, 2, properties, 0)
 
 # Print a document
 job_info = ('Test Document', None, {'DesiredAccess': win32print.PRINTER_ALL_ACCESS})
@@ -56,3 +56,5 @@ win32print.EndDocPrinter(printer_handle)
 
 # Close the printer handle
 win32print.ClosePrinter(printer_handle)
+
+print(job_info)

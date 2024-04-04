@@ -1,2 +1,7 @@
 import win32printing
+from gatherPrinters import *
+
+content = readText()
+
+brotherPrint = call_printer(1)
 
